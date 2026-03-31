@@ -1,0 +1,120 @@
+{
+  "name": "osop-vscode",
+  "displayName": "OSOP — Open Standard Operating Procedures",
+  "description": "Autocomplete, validation, hover docs, and syntax highlighting for .osop.yaml workflow files.",
+  "version": "0.1.0",
+  "publisher": "osop",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osop/osop-vscode"
+  },
+  "homepage": "https://osop.ai",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Snippets",
+    "Formatters"
+  ],
+  "keywords": [
+    "osop",
+    "workflow",
+    "yaml",
+    "sop",
+    "automation"
+  ],
+  "activationEvents": [
+    "onLanguage:osop",
+    "workspaceContains:**/*.osop.yaml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "osop",
+        "aliases": ["OSOP", "osop"],
+        "extensions": [".osop.yaml", ".osop.yml"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "osop",
+        "scopeName": "source.osop",
+        "path": "./syntaxes/osop.tmLanguage.json"
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": ["*.osop.yaml", "*.osop.yml"],
+        "url": "https://osop.ai/schema/v0.1/osop.schema.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "osop",
+        "path": "./snippets/osop.json"
+      }
+    ],
+    "configuration": {
+      "title": "OSOP",
+      "properties": {
+        "osop.validation.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time schema validation for .osop.yaml files."
+        },
+        "osop.validation.schemaUrl": {
+          "type": "string",
+          "default": "https://osop.ai/schema/v0.1/osop.schema.json",
+          "description": "URL of the OSOP JSON Schema to validate against."
+        },
+        "osop.diagram.autoPreview": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically open diagram preview when editing .osop.yaml files."
+        },
+        "osop.mcp.serverUrl": {
+          "type": "string",
+          "default": "",
+          "description": "URL of the OSOP MCP server for advanced features (validate, optimize)."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "osop.validate",
+        "title": "OSOP: Validate Current File"
+      },
+      {
+        "command": "osop.preview",
+        "title": "OSOP: Preview Workflow Diagram"
+      },
+      {
+        "command": "osop.newWorkflow",
+        "title": "OSOP: New Workflow"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src/",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "yaml": "^2.4.0",
+    "vscode-languageclient": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "eslint": "^9.0.0",
+    "@vscode/vsce": "^3.0.0"
+  }
+}

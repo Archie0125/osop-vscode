@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+out/
+dist/
+*.vsix
+
+# Testing
+coverage/
+
+# Debug
+npm-debug.log*
+
+# Env
+.env
+.env.local
+
+# IDE
+.vscode/
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db

@@ -96,6 +96,10 @@
       {
         "command": "osop.newWorkflow",
         "title": "OSOP: New Workflow"
+      },
+      {
+        "command": "osop.generateReport",
+        "title": "OSOP: Generate Execution Report"
       }
     ]
   },

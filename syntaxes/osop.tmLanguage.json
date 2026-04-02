@@ -1,0 +1,125 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "OSOP",
+  "scopeName": "source.osop",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#osop-top-level-keys" },
+    { "include": "#osop-node-properties" },
+    { "include": "#osop-edge-properties" },
+    { "include": "#osop-node-type-values" },
+    { "include": "#osop-edge-mode-values" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#booleans" },
+    { "include": "#null" },
+    { "include": "#tags" },
+    { "include": "#anchors" },
+    { "include": "#block-sequence" },
+    { "include": "#block-mapping" }
+  ],
+  "repository": {
+    "comments": {
+      "match": "(?:^|\\s+)(#.*)$",
+      "captures": {
+        "1": { "name": "comment.line.number-sign.osop" }
+      }
+    },
+    "osop-top-level-keys": {
+      "match": "^(osop_version|nodes|edges|triggers|runtime|id|name|description|version|tags|timeout_sec|config)\\s*(:)",
+      "captures": {
+        "1": { "name": "keyword.control.osop" },
+        "2": { "name": "punctuation.separator.key-value.osop" }
+      }
+    },
+    "osop-node-properties": {
+      "match": "^\\s+(id|type|subtype|name|purpose|description|explain|inputs|outputs|timeout_sec|retry_policy|runtime)\\s*(:)",
+      "captures": {
+        "1": { "name": "support.type.property-name.osop" },
+        "2": { "name": "punctuation.separator.key-value.osop" }
+      }
+    },
+    "osop-edge-properties": {
+      "match": "^\\s+(from|to|mode|condition|label|for_each|iterator_var|join_mode|join_count|cases|default_to)\\s*(:)",
+      "captures": {
+        "1": { "name": "support.type.property-name.osop" },
+        "2": { "name": "punctuation.separator.key-value.osop" }
+      }
+    },
+    "osop-node-type-values": {
+      "match": "(?<=type:\\s*)(human|agent|api|cli|db|git|docker|cicd|mcp|system|infra|data)\\b",
+      "name": "constant.language.node-type.osop"
+    },
+    "osop-edge-mode-values": {
+      "match": "(?<=mode:\\s*)(sequential|conditional|parallel|loop|event|fallback|error|timeout|spawn|switch)\\b",
+      "name": "constant.language.edge-mode.osop"
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.osop",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.osop",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.osop",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.osop",
+              "match": "''"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "match": "(?<=:\\s*)[-+]?[0-9]+(\\.[0-9]+)?([eE][-+]?[0-9]+)?\\s*$",
+      "name": "constant.numeric.osop"
+    },
+    "booleans": {
+      "match": "(?<=:\\s*)(true|false|True|False|TRUE|FALSE)\\s*$",
+      "name": "constant.language.boolean.osop"
+    },
+    "null": {
+      "match": "(?<=:\\s*)(null|Null|NULL|~)\\s*$",
+      "name": "constant.language.null.osop"
+    },
+    "tags": {
+      "match": "!\\S+",
+      "name": "storage.type.tag.osop"
+    },
+    "anchors": {
+      "patterns": [
+        {
+          "match": "&\\S+",
+          "name": "entity.name.type.anchor.osop"
+        },
+        {
+          "match": "\\*\\S+",
+          "name": "variable.other.alias.osop"
+        }
+      ]
+    },
+    "block-sequence": {
+      "match": "^(\\s*)(-)\\s",
+      "captures": {
+        "2": { "name": "punctuation.definition.block.sequence.item.osop" }
+      }
+    },
+    "block-mapping": {
+      "match": "^(\\s*)([\\w][\\w.-]*)\\s*(:)",
+      "captures": {
+        "2": { "name": "entity.name.tag.osop" },
+        "3": { "name": "punctuation.separator.key-value.osop" }
+      }
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "OSOP Workflow": {
+    "prefix": "osop-workflow",
+    "body": [
+      "osop_version: \"1.0\"",
+      "id: ${1:my-workflow}",
+      "name: ${2:My Workflow}",
+      "description: ${3:Workflow description}",
+      "version: \"1.0.0\"",
+      "tags: [${4:tag1, tag2}]",
+      "",
+      "nodes:",
+      "  - id: ${5:step-1}",
+      "    type: ${6|human,agent,api,cli,db,git,docker,cicd,mcp,system,infra,data|}",
+      "    name: ${7:Step 1}",
+      "    description: ${8:What this step does}",
+      "",
+      "edges:",
+      "  - from: ${5:step-1}",
+      "    to: ${9:step-2}",
+      "    mode: sequential"
+    ],
+    "description": "Full OSOP workflow scaffold"
+  },
+  "OSOP Node - Agent": {
+    "prefix": "osop-node-agent",
+    "body": [
+      "  - id: ${1:agent-step}",
+      "    type: agent",
+      "    subtype: ${2|llm,planner,coordinator,explore,plan,worker|}",
+      "    name: ${3:Agent Step}",
+      "    description: ${4:What this agent does}",
+      "    inputs:",
+      "      ${5:prompt}: ${6:value}",
+      "    outputs:",
+      "      ${7:result}: ${8:value}"
+    ],
+    "description": "OSOP agent node with subtype, inputs, and outputs"
+  },
+  "OSOP Node - API": {
+    "prefix": "osop-node-api",
+    "body": [
+      "  - id: ${1:api-call}",
+      "    type: api",
+      "    subtype: ${2|rest,graphql,grpc|}",
+      "    name: ${3:API Call}",
+      "    description: ${4:What this API call does}",
+      "    inputs:",
+      "      url: ${5:https://api.example.com}",
+      "      method: ${6|GET,POST,PUT,PATCH,DELETE|}",
+      "    timeout_sec: ${7:30}"
+    ],
+    "description": "OSOP API node with URL and method"
+  },
+  "OSOP Node - CLI": {
+    "prefix": "osop-node-cli",
+    "body": [
+      "  - id: ${1:run-command}",
+      "    type: cli",
+      "    subtype: script",
+      "    name: ${2:Run Command}",
+      "    description: ${3:What this command does}",
+      "    inputs:",
+      "      command: ${4:echo hello}"
+    ],
+    "description": "OSOP CLI node for shell commands"
+  },
+  "OSOP Node - Human": {
+    "prefix": "osop-node-human",
+    "body": [
+      "  - id: ${1:human-step}",
+      "    type: human",
+      "    subtype: ${2|input,review,approval|}",
+      "    name: ${3:Human Step}",
+      "    description: ${4:What the human does}"
+    ],
+    "description": "OSOP human node for manual steps"
+  },
+  "OSOP Node - MCP": {
+    "prefix": "osop-node-mcp",
+    "body": [
+      "  - id: ${1:mcp-step}",
+      "    type: mcp",
+      "    subtype: ${2|tool,resource,prompt|}",
+      "    name: ${3:MCP Tool Call}",
+      "    description: ${4:What this tool does}",
+      "    inputs:",
+      "      server: ${5:server-name}",
+      "      tool: ${6:tool-name}"
+    ],
+    "description": "OSOP MCP node for tool calls"
+  },
+  "OSOP Node - Git": {
+    "prefix": "osop-node-git",
+    "body": [
+      "  - id: ${1:git-step}",
+      "    type: git",
+      "    subtype: ${2|commit,branch,pr,merge,tag|}",
+      "    name: ${3:Git Operation}",
+      "    description: ${4:What this git operation does}"
+    ],
+    "description": "OSOP git node for version control operations"
+  },
+  "OSOP Node - CI/CD": {
+    "prefix": "osop-node-cicd",
+    "body": [
+      "  - id: ${1:cicd-step}",
+      "    type: cicd",
+      "    subtype: ${2|test,build,deploy,lint|}",
+      "    name: ${3:CI/CD Step}",
+      "    description: ${4:What this CI/CD step does}"
+    ],
+    "description": "OSOP CI/CD node for build/test/deploy"
+  },
+  "OSOP Edge": {
+    "prefix": "osop-edge",
+    "body": [
+      "  - from: ${1:source-node}",
+      "    to: ${2:target-node}",
+      "    mode: ${3|sequential,conditional,parallel,loop,event,fallback,error,timeout,spawn,switch|}"
+    ],
+    "description": "OSOP edge connecting two nodes"
+  },
+  "OSOP Edge - Conditional": {
+    "prefix": "osop-edge-conditional",
+    "body": [
+      "  - from: ${1:source-node}",
+      "    to: ${2:target-node}",
+      "    mode: conditional",
+      "    condition: ${3:expression}",
+      "    label: ${4:When condition is true}"
+    ],
+    "description": "OSOP conditional edge with expression"
+  },
+  "OSOP Edge - Loop": {
+    "prefix": "osop-edge-loop",
+    "body": [
+      "  - from: ${1:source-node}",
+      "    to: ${2:target-node}",
+      "    mode: loop",
+      "    for_each: ${3:items}",
+      "    iterator_var: ${4:item}"
+    ],
+    "description": "OSOP loop edge with iterator"
+  },
+  "OSOP Edge - Switch": {
+    "prefix": "osop-edge-switch",
+    "body": [
+      "  - from: ${1:source-node}",
+      "    to: ${2:default-target}",
+      "    mode: switch",
+      "    cases:",
+      "      ${3:case-a}: ${4:target-a}",
+      "      ${5:case-b}: ${6:target-b}",
+      "    default_to: ${2:default-target}"
+    ],
+    "description": "OSOP switch edge with case mapping"
+  },
+  "OSOP Trigger": {
+    "prefix": "osop-trigger",
+    "body": [
+      "triggers:",
+      "  - type: ${1|manual,schedule,webhook,event|}",
+      "    config:",
+      "      ${2:key}: ${3:value}"
+    ],
+    "description": "OSOP trigger definition"
+  },
+  "OSOP Retry Policy": {
+    "prefix": "osop-retry-policy",
+    "body": [
+      "    retry_policy:",
+      "      max_retries: ${1:3}",
+      "      backoff: ${2|fixed,linear,exponential|}",
+      "      delay_sec: ${3:5}"
+    ],
+    "description": "OSOP retry policy for a node"
+  },
+  "OSOP Runtime": {
+    "prefix": "osop-runtime",
+    "body": [
+      "    runtime:",
+      "      ${1|agent,model,image,env|}: ${2:value}"
+    ],
+    "description": "OSOP runtime configuration for a node"
+  }
+}

@@ -1,0 +1,13 @@
+.gitignore
+.git/**
+src/**
+tsconfig.json
+node_modules/**
+**/*.ts
+!out/**/*.js
+!out/**/*.js.map
+!out/**/*.d.ts
+.eslintrc*
+eslint.config.*
+**/*.map
+.vscode/**

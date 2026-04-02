@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osop.ai/schema/v0.1/osop.schema.json",
+  "title": "OSOP Workflow",
+  "description": "Open Standard Operating Procedure workflow definition.",
+  "type": "object",
+  "required": ["osop_version", "id", "nodes", "edges"],
+  "additionalProperties": true,
+  "properties": {
+    "osop_version": {
+      "type": "string",
+      "description": "OSOP specification version.",
+      "examples": ["1.0"]
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique workflow identifier.",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable workflow name."
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what this workflow does."
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this workflow.",
+      "examples": ["1.0.0"]
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags for categorization and discovery."
+    },
+    "timeout_sec": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Maximum execution time for the entire workflow in seconds."
+    },
+    "nodes": {
+      "type": "array",
+      "description": "Workflow steps/nodes.",
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique node identifier within this workflow.",
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "type": {
+            "type": "string",
+            "description": "Node type.",
+            "enum": [
+              "human", "agent", "api", "cli", "db", "git",
+              "docker", "cicd", "mcp", "system", "infra", "data"
+            ]
+          },
+          "subtype": {
+            "type": "string",
+            "description": "Node subtype for finer classification."
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable node name."
+          },
+          "description": {
+            "type": "string",
+            "description": "What this node does."
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Why this node exists in the workflow."
+          },
+          "explain": {
+            "type": "string",
+            "description": "Detailed explanation of the node logic."
+          },
+          "inputs": {
+            "type": "object",
+            "description": "Input parameters for this node.",
+            "additionalProperties": true
+          },
+          "outputs": {
+            "type": "object",
+            "description": "Output parameters produced by this node.",
+            "additionalProperties": true
+          },
+          "timeout_sec": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Maximum execution time for this node in seconds."
+          },
+          "retry_policy": {
+            "type": "object",
+            "description": "Retry configuration for this node.",
+            "properties": {
+              "max_retries": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "backoff": {
+                "type": "string",
+                "enum": ["fixed", "linear", "exponential"]
+              },
+              "delay_sec": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": true
+          },
+          "runtime": {
+            "type": "object",
+            "description": "Runtime configuration for this node.",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "description": "Connections between nodes.",
+      "items": {
+        "type": "object",
+        "required": ["from", "to"],
+        "additionalProperties": true,
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Source node ID."
+          },
+          "to": {
+            "type": "string",
+            "description": "Target node ID."
+          },
+          "mode": {
+            "type": "string",
+            "description": "Edge transition mode.",
+            "enum": [
+              "sequential", "conditional", "parallel", "loop",
+              "event", "fallback", "error", "timeout", "spawn", "switch"
+            ],
+            "default": "sequential"
+          },
+          "condition": {
+            "type": "string",
+            "description": "Condition expression for conditional edges."
+          },
+          "label": {
+            "type": "string",
+            "description": "Human-readable label for this edge."
+          },
+          "for_each": {
+            "type": "string",
+            "description": "Expression producing an iterable for loop edges."
+          },
+          "iterator_var": {
+            "type": "string",
+            "description": "Variable name bound to each iteration value."
+          },
+          "join_mode": {
+            "type": "string",
+            "description": "How parallel branches are joined.",
+            "enum": ["all", "any", "count"]
+          },
+          "join_count": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of branches to wait for when join_mode is 'count'."
+          },
+          "cases": {
+            "type": "object",
+            "description": "Case mapping for switch edges.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "default_to": {
+            "type": "string",
+            "description": "Default target node ID for switch edges when no case matches."
+          }
+        }
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "description": "Events or schedules that can start this workflow.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Trigger type."
+          },
+          "config": {
+            "type": "object",
+            "description": "Trigger-specific configuration.",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

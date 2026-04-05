@@ -2,7 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
-Visual Studio Code extension for OSOP (Open Standard Operating Procedures) workflow files. Provides autocomplete, validation, hover documentation, and syntax highlighting for `.osop.yaml` files.
+**Part of SOP Doc.** Read and write .osop files with full IDE support.
+
+Syntax highlighting, real-time validation, Mermaid preview panel, 16 code snippets. See errors before you run. Author SOP Doc content directly in VS Code.
 
 Website: [osop.ai](https://osop.ai) | GitHub: [github.com/osop/osop-vscode](https://github.com/osop/osop-vscode)
 

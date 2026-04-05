@@ -3,15 +3,17 @@ import * as yaml from 'yaml';
 
 // --- Constants ---
 
-const VALID_NODE_TYPES = [
-    'human', 'agent', 'api', 'cli', 'db', 'git',
-    'docker', 'cicd', 'mcp', 'system', 'infra', 'data',
-] as const;
+// Core types (recommended for most workflows)
+const CORE_NODE_TYPES = ['agent', 'api', 'cli', 'human'] as const;
+const CORE_EDGE_MODES = ['sequential', 'conditional', 'parallel', 'fallback'] as const;
 
-const VALID_EDGE_MODES = [
-    'sequential', 'conditional', 'parallel', 'loop',
-    'event', 'fallback', 'error', 'timeout', 'spawn', 'switch',
-] as const;
+// Extended types (full spec)
+const EXTENDED_NODE_TYPES = ['db', 'git', 'docker', 'cicd', 'mcp', 'system', 'infra', 'data'] as const;
+const EXTENDED_EDGE_MODES = ['loop', 'event', 'error', 'timeout', 'spawn', 'switch'] as const;
+
+// All valid types (Core + Extended)
+const VALID_NODE_TYPES = [...CORE_NODE_TYPES, ...EXTENDED_NODE_TYPES] as const;
+const VALID_EDGE_MODES = [...CORE_EDGE_MODES, ...EXTENDED_EDGE_MODES] as const;
 
 const NODE_TYPE_COLORS: Record<string, string> = {
     human:  '#3B82F6',
